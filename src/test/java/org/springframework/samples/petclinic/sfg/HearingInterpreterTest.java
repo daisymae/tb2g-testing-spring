@@ -2,21 +2,22 @@ package org.springframework.samples.petclinic.sfg;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringRunner;
 
-class HearingInterpreterTest {
+@RunWith(SpringRunner.class)
+@ContextConfiguration(classes = {BaseConfig.class, LaurelConfig.class})
+public class HearingInterpreterTest {
 
+  @Autowired
   HearingInterpreter hearingInterpreter;
-  @BeforeEach
-  void setUp() throws Exception {
-    hearingInterpreter = new HearingInterpreter(new LaurelWordProducer());
-  }
 
   @Test
-  void whatIheard() {
+  public void whatIheard() {
     String word = hearingInterpreter.whatIheard();
-
     assertEquals("Laurel", word);
   }
 }

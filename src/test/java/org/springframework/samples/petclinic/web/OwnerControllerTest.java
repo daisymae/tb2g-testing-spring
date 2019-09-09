@@ -15,14 +15,12 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
 /**
- * mvc-test brings in mockMVC configuration
- * mvc-core sets up a number of things for MVC configuration
- * this is old-school spring; springboot will take care of much of this for us
- * This is helpful to know if dealing with an older spring project that is
- * not springboot
+ * mvc-test brings in mockMVC configuration mvc-core sets up a number of things for MVC
+ * configuration this is old-school spring; springboot will take care of much of this for us This is
+ * helpful to know if dealing with an older spring project that is not springboot
  */
 @SpringJUnitWebConfig(locations = {"classpath:spring/mvc-test-config.xml",
-"classpath:spring/mvc-core-config.xml"})
+    "classpath:spring/mvc-core-config.xml"})
 class OwnerControllerTest {
 
   @Autowired
@@ -41,6 +39,19 @@ class OwnerControllerTest {
   @Test
   void tempTest() {
     // ownerController
+  }
+
+  /**
+   * not found as didn't set up mockito to return any values, so hits the not found code
+   *
+   * @throws Exception
+   */
+  @Test
+  void testFindByNameNotFound() throws Exception {
+    mockMvc.perform(get("/owners")
+        .param("lastName", "Dont find ME!"))
+        .andExpect(status().isOk())
+        .andExpect(view().name("owners/findOwners"));
   }
 
   @Test

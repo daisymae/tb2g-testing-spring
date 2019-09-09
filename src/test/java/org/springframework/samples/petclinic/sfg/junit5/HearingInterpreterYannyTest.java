@@ -12,6 +12,10 @@ import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
 @SpringJUnitConfig(classes = {BaseConfig.class, YannyConfig.class})
 class HearingInterpreterYannyTest {
 
+  // NOTE: There is a bug in IntelliJ (or missing configuration?) that it thinks
+  // it can't autowiere here;
+  // has to do with using @SpringJUnitConfig which combines @ExtendsWith and @ContextConfiguration
+  // using them separately will remove the red squiggles, but the code works either way.
   @Autowired
   HearingInterpreter hearingInterpreter;
 

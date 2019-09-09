@@ -7,6 +7,7 @@ import static org.mockito.BDDMockito.given;
 import static org.mockito.BDDMockito.then;
 import static org.mockito.Mockito.reset;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.model;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
@@ -32,8 +33,7 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
  * configuration this is old-school spring; springboot will take care of much of this for us This is
  * helpful to know if dealing with an older spring project that is not springboot
  *
- * Need MockitoExtension to enable JUnit to run mockito
- * extension and see the captor
+ * Need MockitoExtension to enable JUnit to run mockito extension and see the captor
  */
 @ExtendWith(MockitoExtension.class)
 @SpringJUnitWebConfig(locations = {"classpath:spring/mvc-test-config.xml",
@@ -62,6 +62,17 @@ class OwnerControllerTest {
   @AfterEach
   void tearDown() {
     reset(clinicService);
+  }
+
+  @Test
+  void testNewOwnerPostValid() throws Exception {
+    mockMvc.perform(post("/owners/new")
+          .param("firstName", "Jimmy")
+          .param("lastName", "Buffett")
+          .param("Address", "123 Duval Street")
+          .param("city", "Key West")
+          .param("telephone", "123123123"))
+        .andExpect(status().is3xxRedirection());
   }
 
   @Test

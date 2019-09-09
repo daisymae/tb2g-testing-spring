@@ -1,10 +1,11 @@
 package org.springframework.samples.petclinic.sfg;
 
-import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Component;
 
+/**
+ * because this Bean does not have a profile, it will always get loaded
+ */
 @Component
-@Primary
 public class LaurelWordProducer implements WordProducer {
 
   @Override

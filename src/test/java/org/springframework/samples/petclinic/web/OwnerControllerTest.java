@@ -75,6 +75,19 @@ class OwnerControllerTest {
         .andExpect(status().is3xxRedirection());
   }
 
+
+  @Test
+  void testNewOwnerPostInValid() throws Exception {
+    mockMvc.perform(post("/owners/new")
+        .param("firstName", "Jimmy")
+        .param("lastName", "Buffett")
+        .param("city", "Key West"))
+        .andExpect(status().isOk())
+    .andExpect(model().attributeHasErrors("owner"))
+    .andExpect(model().attributeHasFieldErrors("owner", "address"))
+    .andExpect(model().attributeHasFieldErrors("owner", "telephone"));
+  }
+
   @Test
   void tempTest() {
     // ownerController

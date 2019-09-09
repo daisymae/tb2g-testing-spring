@@ -13,13 +13,16 @@ import org.springframework.samples.petclinic.service.ClinicService;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.BDDMockito.then;
-
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 /**
  * This is a simple Unit test, no MVC mock.
  */
@@ -37,13 +40,36 @@ class VetControllerTest {
 
     List<Vet> vetsList = new ArrayList<>();
 
+    MockMvc mockMvc;
+
     @BeforeEach
     void setUp() {
         vetsList.add(new Vet());
 
         given(clinicService.findVets()).willReturn(vetsList);
+
+        // setup mockMVC; standalone setup of the controller
+        mockMvc = MockMvcBuilders.standaloneSetup(controller).build();
     }
 
+    /**
+     * MockMVC test that tests the showVetList in VetController
+     * have mocked the service in the setup
+     *
+     * @throws Exception
+     */
+    @Test
+    void testControllerShowVetList() throws Exception {
+        mockMvc.perform(get("/vets.html"))
+        .andExpect(status().isOk())
+        .andExpect(model().attributeExists("vets"))
+        .andExpect(view().name("vets/vetList"));
+    }
+
+    /**
+     * This test is similar to above but as a POJO test.
+     * The test above confirms the MVC parts as well.
+     */
     @Test
     void showVetList() {
         //when

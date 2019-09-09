@@ -20,6 +20,9 @@ import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.BDDMockito.then;
 
+/**
+ * This is a simple Unit test, no MVC mock.
+ */
 @ExtendWith(MockitoExtension.class)
 class VetControllerTest {
 
